@@ -14,8 +14,13 @@ boolean EnemyMiss;
 boolean EnemyCrit;
 boolean PlayerTurn;
 boolean EnemyTurn;
-int Proll;
-int Eroll;
+
+PImage [] RImageMvm;
+PImage [] LImageMvm;
+PImage [] RImageAtk;
+PImage [] LImageAtk;
+PImage [] RImageJmp;
+PImage [] LImageJmp;
 //
 boolean Pause;
 boolean Play;
@@ -47,6 +52,8 @@ PImage ImageI;
 PImage ImageII;
 PImage ImageIII;
 PImage ImageIV;
+PImage ImageV;
+PImage ImageVI;
 //
 String[] fontList;
 float fontSize;
@@ -58,6 +65,12 @@ color resetInk = whiteInk;
 int PlayerRollValue;
 
 void setup() {
+  RImageMvm = new int[2];
+  LImageMvm = new int[2];
+  RImageAtk = new int[2];
+  LImageAtk = new int[2];
+  RImageJmp = new int[0];
+  LImageJmp = new int[0];
   fullScreen();
   frameRate(12);
   EnemyX = 20;
@@ -92,13 +105,13 @@ void setup() {
   String ImageNameVI = "Unnamed ClassicVania Sprite III (Left)";
   String FEImage = ".png";
   String open = "/";
-  String ImageDirectory = ImagesFolder + open;
-  String IpathwayI = ImageDirectory + ImageNameI + FEImage;
-  String IpathwayII = ImageDirectory + ImageNameII + FEImage;
-  String IpathwayIII = ImageDirectory + ImageNameIII + FEImage;
-  String IpathwayIV = ImageDirectory + ImageNameIV + FEImage;
-  String IpathwayV = ImageDirectory + ImageNameV + FEImage;
-  String IpathwayVI = ImageDirectory + ImageNameVI + FEImage;
+  String ImageDirectory = UpArrow+open+ImagesFolder;
+  String IpathwayI = ImageDirectory + open + ImageNameI + FEImage;
+  String IpathwayII = ImageDirectory + open + ImageNameII + FEImage;
+  String IpathwayIII = ImageDirectory + open + ImageNameIII + FEImage;
+  String IpathwayIV = ImageDirectory + open + ImageNameIV + FEImage;
+  String IpathwayV = ImageDirectory + open + ImageNameV + FEImage;
+  String IpathwayVI = ImageDirectory + open + ImageNameVI + FEImage;
   background(255);
   ImageI = loadImage(IpathwayI);
   ImageII = loadImage(IpathwayII);
@@ -114,18 +127,29 @@ void setup() {
   TextDivY = 0 * appHeight/PaperHeight;
   TextDivWidth = 63.5 * appWidth/PaperWidth;
   TextDivHeight = 215.5 * appHeight/PaperHeight;
-  step = 64;
+  step = 128;
 }
 void draw() {
+  image(ImageI, PlayerX, PlayerY, step, step);
 }
 void keyPressed() {
+  if (key==CODED) {
+    if (keyCode == RIGHT) {
+      PlayerX=PlayerX+step/6-3;
+    }
+  }
+  if (key==CODED) {
+    if (keyCode == LEFT) {
+      Pleft=true;
+      PlayerX=PlayerX-step/6+3;
+    }
+  }
 }
 void keyReleased() {
-  if (key == 'x'|| key == 'X') {
+  if (key == 'z'|| key == 'Z') {
     println("Player Health:", PlayerHealth);
     println("Enemy Health:", EnemyHealth);
     PlayerRollValue = floor(random(1, 100));
-
     if (PlayerRollValue >= EnemyArmour && PlayerRollValue <95 && EnemyHealth>0) {
       EnemyHealth=EnemyHealth - floor(random(1, 4));
       println("Player Hit");
